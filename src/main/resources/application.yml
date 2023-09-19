@@ -1,0 +1,24 @@
+#服务器端口配置
+server:
+  port: 9999
+
+#数据库配置
+spring:
+  datasource:
+    username: SkillsCompetition
+    password: 123456
+    url: jdbc:mysql://localhost:25565/skillscompetition?useUnicode=true&characterEncoding=UTF-8
+
+  #Redis缓存池配置
+  redis:
+    port: 6379
+    host: localhost
+
+#日志配置
+logging:
+  level:
+    top.dooper: debug
+
+#异步跨域过滤
+cors:
+  filter: http://localhost:5173
