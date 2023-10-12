@@ -2,8 +2,8 @@ package top.dooper.sys.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import lombok.val;
-import org.omg.CORBA.TIMEOUT;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import top.dooper.sys.entity.User;
@@ -30,6 +30,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public Map<String, Object> login(User user) {
@@ -51,10 +53,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 data.put("token", key);
                 return data;
             }
-            return null;
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -65,11 +65,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             Map<String, Object> data = new HashMap<>();
             data.put("name", loginUser.getUsername());
             data.put("sid", loginUser.getSid());
-            data.put("isRoot", loginUser.getIsRoot());
+            data.put("usertype", loginUser.getUsertype());
             data.put("email", loginUser.getEmail());
             data.put("college", loginUser.getCollege());
             data.put("professional", loginUser.getProfessional());
-            data.put("class", loginUser.getClass_());
+            data.put("classes", loginUser.getClasses());
             data.put("grade", loginUser.getGrade());
             data.put("status", loginUser.getStatus());
 
@@ -81,6 +81,38 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public void logout(String token) {
         redisTemplate.delete(token);
+    }
+
+    @Override
+    public boolean delete(String sid, String token) {
+        Object obj = redisTemplate.opsForValue().get(token);
+        if (obj != null){
+            User loginUser = JSON.parseObject(JSON.toJSONString(obj), User.class);
+            if(loginUser.getUsertype() < 2){
+                return false;
+            }
+            LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(User::getSid, sid);
+            baseMapper.delete(wrapper);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Page<User> pages(String token, Integer page, String keyword) {
+        Object obj = redisTemplate.opsForValue().get(token);
+        if (obj != null){
+            User loginUser = JSON.parseObject(JSON.toJSONString(obj), User.class);
+            if(loginUser.getUsertype() < 2){
+                return null;
+            }
+            LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+            wrapper.like(User::getSid, keyword);
+            Page<User> userPage = this.baseMapper.selectPage(new Page<>(page, 20) ,wrapper);
+            return userPage;
+        }
+        return null;
     }
 
     private boolean isValidUser(User user) {

@@ -27,7 +27,7 @@ public class User implements Serializable {
 
     private String password;
 
-    private Integer isRoot;
+    private Integer usertype;
 
     private String email;
 
@@ -47,12 +47,12 @@ public class User implements Serializable {
         this.professional = professional;
     }
 
-    public String getClass_() {
-        return class_;
+    public String getClasses() {
+        return classes;
     }
 
-    public void setClass_(String class_) {
-        this.class_ = class_;
+    public void setClasses(String classes) {
+        this.classes = classes;
     }
 
     public String getGrade() {
@@ -65,7 +65,7 @@ public class User implements Serializable {
 
     private String college;
     private String professional;
-    private String class_;
+    private String classes;
     private String grade;
 
     private Integer status;
@@ -102,12 +102,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Integer getIsRoot() {
-        return isRoot;
+    public Integer getUsertype() {
+        return usertype;
     }
 
-    public void setIsRoot(Integer isRoot) {
-        this.isRoot = isRoot;
+    public void setUsertype(Integer usertype) {
+        this.usertype = usertype;
     }
 
     public String getEmail() {
@@ -126,21 +126,4 @@ public class User implements Serializable {
         this.status = status;
     }
 
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id = " + id +
-                ", sid = " + sid +
-                ", username = " + username +
-                ", password = " + password +
-                ", isRoot = " + isRoot +
-                ", email = " + email +
-                ", college='" + college +
-                ", professional='" + professional +
-                ", class_='" + class_ +
-                ", grade='" + grade +
-                ", status = " + status +
-                "}";
-    }
 }

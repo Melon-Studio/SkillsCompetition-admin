@@ -49,12 +49,4 @@ public class Work implements Serializable {
         this.url = url;
     }
 
-    @Override
-    public String toString() {
-        return "Work{" +
-            "id = " + id +
-            ", sid = " + sid +
-            ", url = " + url +
-        "}";
-    }
 }

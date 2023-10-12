@@ -1,10 +1,8 @@
 package top.dooper.sys.controller;
 
-import lombok.val;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
 import top.dooper.common.vo.ApiResponse;
 import top.dooper.sys.entity.User;
 import top.dooper.sys.service.IUserService;
@@ -25,12 +23,6 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private IUserService userService;
-
-    @GetMapping("/all")
-    public ApiResponse<List<User>> getAllUser(){
-        List<User> list = userService.list();
-        return ApiResponse.success(list);
-    }
 
     @PostMapping("/login")
     public ApiResponse<Map<String, Object>> login(@RequestBody User user){
@@ -55,4 +47,23 @@ public class UserController {
         userService.logout(token);
         return ApiResponse.success();
     }
+
+    @DeleteMapping("/delete")
+    public ApiResponse<?> delete(@RequestParam("sid") String sid, @RequestParam("token") String token){
+        boolean status = userService.delete(sid, token);
+        if (status){
+            return ApiResponse.success();
+        }
+        return ApiResponse.error(401, "Illegal operation, insufficient permissions.");
+    }
+
+    @GetMapping("/pages")
+    public ApiResponse<?> getPages(@RequestParam("token") String token, @RequestParam("page") Integer page, @RequestParam("keyword") String keyword){
+        Page<User> pageNum = userService.pages(token, page, keyword);
+        if (pageNum != null){
+            return ApiResponse.success(pageNum);
+        }
+        return ApiResponse.error(401, "Illegal operation, insufficient permissions.");
+    }
+
 }
