@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.dooper.sys.mapper.RankMapper">
+<insert id="insertRank" parameterType="java.util.List">
+    insert into sc_rank (id, work_id, score, ranking) values
+    <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.id}, #{item.workId}, #{item.score}, #{item.ranking})
+    </foreach>
+</insert>
+
+    <select id="getDataVo" resultType="top.dooper.common.vo.RankVo">
+        select r.id, r.work_id, w.sid, u.username, r.score, r.ranking from sc_rank r left join sc_work w on r.work_id = w.id left join sc_user u on w.sid = u.sid order by r.ranking ASC
+    </select>
+
+    <select id="getEmail" resultType="top.dooper.common.vo.PublishScoreVo">
+        select r.score, r.ranking, w.sid, u.email from sc_rank r left join sc_work w on r.work_id = w.id left join sc_user u on w.sid = u.sid order by r.ranking ASC
+    </select>
+</mapper>

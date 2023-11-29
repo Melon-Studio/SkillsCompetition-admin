@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.dooper.sys.mapper.UserMapper">
+
+    <!-- 获取评分人员总数 -->
+<!--    <select id="getTotalReviewersCount" resultType="Long">-->
+<!--        SELECT COUNT(*) AS total_reviewers-->
+<!--        FROM sc_user-->
+<!--        WHERE usertype = 1;-->
+<!--    </select>-->
+
+    <!-- 获取未被所有评分人员评过分的作品数量 -->
+<!--    <select id="getNumberOfWorksNotReviewedByAll" resultType="Long">-->
+<!--        SELECT COUNT(*) AS num_works_not_reviewed_by_all-->
+<!--        FROM (-->
+<!--        SELECT sw.work_id-->
+<!--        FROM (-->
+<!--        SELECT DISTINCT work_id-->
+<!--        FROM sc_work-->
+<!--        ) sw-->
+<!--        LEFT JOIN (-->
+<!--        SELECT work_id, COUNT(DISTINCT reviewer_id) AS num_reviewers-->
+<!--        FROM sc_work-->
+<!--        GROUP BY work_id-->
+<!--        ) w ON sw.work_id = w.work_id-->
+<!--        WHERE w.work_id IS NULL OR w.num_reviewers &lt; (-->
+<!--        SELECT COUNT(*) AS total_reviewers-->
+<!--        FROM sc_user-->
+<!--        WHERE usertype = 1-->
+<!--        )-->
+<!--        ) as works_not_reviewed;-->
+<!--    </select>-->
+</mapper>

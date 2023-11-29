@@ -26,4 +26,19 @@ public interface IUserService extends IService<User> {
     boolean delete(String sid, String token);
 
     Page<User> pages(String token, Integer page, String keyword);
+
+    Map<String, String> sendEmailCaptchaCode(String token, String email);
+    Map<String, String> sendEmailCaptchaCode(String token);
+    boolean verifyEmail(String token, String key, String captchaCode, String password, String email);
+
+    Long getInitUser(String token);
+
+    Long getNumberOfProjectsToGraded(String token);
+
+    String getScoringCompletion(String token);
+
+
+    List<Map<String, String>> getDashboardData(String token);
+
+    int changePassword(String token, String oldPassword, String newPassword, String captchaCode, String key);
 }

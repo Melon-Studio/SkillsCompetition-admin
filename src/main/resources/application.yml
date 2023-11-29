@@ -2,17 +2,51 @@
 server:
   port: 9999
 
+#站点基础配置
+WebApplication:
+  #站点名称
+  name: SkillsCompetition
+  #站点地址
+  url: http://localhost:5173/
+
 #数据库配置
 spring:
   datasource:
     username: SkillsCompetition
     password: 123456
     url: jdbc:mysql://localhost:25565/skillscompetition?useUnicode=true&characterEncoding=UTF-8
+  #Json解析器配置
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  #文件上传大小配置
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
 
   #Redis缓存池配置
   redis:
     port: 6379
     host: localhost
+
+  #SMTP邮箱配置
+  mail:
+    #SMTP服务器地址
+    host: smtp.163.com
+    #SMTP服务器端口
+    port: 465
+    #第三方邮箱用户名
+    username: abulan_1@163.com
+    #第三方邮箱授权码
+    password: PZOQBVYRAZZFAXXY
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          auth: true
+    default-encoding: UTF-8
 
 #日志配置
 logging:
@@ -22,3 +56,7 @@ logging:
 #异步跨域过滤
 cors:
   filter: http://localhost:5173
+
+#MyBatis Plus 映射XML文件
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml

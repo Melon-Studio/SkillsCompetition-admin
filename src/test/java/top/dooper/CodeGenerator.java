@@ -13,7 +13,7 @@ public class CodeGenerator {
         String password = "123456";
         String moduleName = "sys";
         String mapperLocation = "E:\\Project\\Java\\SpringBoot\\SkillsCompetition-admin\\src\\main\\resources\\mapper" + moduleName;
-        String tablesName = "sc_user,sc_work";
+        String tablesName = "sc_rank";
 
 
         FastAutoGenerator.create(url, username, password)
