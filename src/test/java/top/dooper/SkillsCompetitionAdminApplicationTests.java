@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import top.dooper.business.HtmlParser;
+import top.dooper.scheduled.ScheduledTask;
 import top.dooper.service.IEmailService;
 import top.dooper.sys.entity.Rank;
 import top.dooper.sys.entity.Score;
@@ -66,5 +67,10 @@ class SkillsCompetitionAdminApplicationTests {
         List<Rank> averageScores = ScoreUtils.calculateAverageScore(allData);
         List<Rank> rankedScores = ScoreUtils.rankScores(averageScores);
         System.out.println(rankedScores);
+    }
+
+    @Test
+    void getIP() {
+        System.out.println(new ScheduledTask(emailService).getCurrentIP());
     }
 }

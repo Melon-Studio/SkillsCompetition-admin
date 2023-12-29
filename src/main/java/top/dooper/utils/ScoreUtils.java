@@ -11,7 +11,6 @@ public class ScoreUtils {
     public static List<Rank> calculateAverageScore(List<Score> allScores) {
         Map<Integer, List<Double>> workIdToScores = new HashMap<>();
 
-        // Calculate average scores for each workId
         for (Score score : allScores) {
             int workId = score.getWorkId();
             double currentScore = score.getScore();
@@ -41,13 +40,10 @@ public class ScoreUtils {
     }
 
     public static List<Rank> rankScores(List<Rank> ranks) {
-        // Sort ranks based on scores in ascending order
         ranks.sort(Comparator.comparingDouble(Rank::getScore));
 
-        // Reverse the order to get ascending rank
         Collections.reverse(ranks);
 
-        // Assign rankings
         int rank = 1;
         for (Rank r : ranks) {
             int a = rank++;

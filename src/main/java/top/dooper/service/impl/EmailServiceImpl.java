@@ -6,12 +6,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import top.dooper.scheduled.ScheduledTask;
 import top.dooper.service.IEmailService;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 
 @Service
 public class EmailServiceImpl implements IEmailService {
@@ -19,8 +21,8 @@ public class EmailServiceImpl implements IEmailService {
 
     @Value("${WebApplication.name}")
     private String WebName;
-    @Value("${WebApplication.url}")
-    private String WebUrl;
+    private String WebUrl = "http://" + getCurrentIP();
+
     @Value("${spring.mail.username}")
     private String fromEmail;
 
@@ -30,11 +32,13 @@ public class EmailServiceImpl implements IEmailService {
 
     @Async
     @Override
-    public void sendSimpleMessage(String to, String title, String content) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(title);
-        message.setText(content);
+    public void sendSimpleMessage(String to, String title, String content) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        helper.setFrom(new InternetAddress(fromEmail, WebName, "UTF-8"));
+        helper.setTo(to);
+        helper.setSubject(title);
+        helper.setText(content);
         javaMailSender.send(message);
     }
 
@@ -57,7 +61,16 @@ public class EmailServiceImpl implements IEmailService {
         helper.setFrom(new InternetAddress(fromEmail, WebName, "UTF-8"));
         helper.setTo(to);
         helper.setSubject("比赛成绩公布通知");
-        helper.setText("<div style=\"background: #eee\"><table width=\"600\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\"><tbody><tr><td><div style=\"background:#fff\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><thead><tr><td valign=\"middle\" style=\"padding-left:30px;background-color:#415A94;color:#fff;padding:20px 40px;font-size: 21px;\">"+WebName+"</td></tr></thead><tbody><tr style=\"padding:40px 40px 0 40px;display:table-cell\"><td style=\"font-size:24px;line-height:1.5;color:#000;margin-top:40px; font-weight: 900;\">成绩公布</td></tr><tr><td style=\"font-size:14px;color:#333;padding:24px 40px 0 40px\"><p>尊敬的参赛选手，你好！</p><p>大赛成绩已公布，你的成绩是：<span style=\"font-size: 16px; font-weight: 800;\">"+score+"</span>，你的本次大赛排名是：<span style=\"font-size: 16px; font-weight: 800;\">"+rank+"</span></p><p>比赛成绩和将于近期在学院钉钉群公布，奖品和证书的发放通知将于近期在学院钉钉群公布，请耐心等待！</p><p>如果你对比赛结果有任何疑问，请联系大赛组委会，地址：信息技术学院(鼎新楼)5楼510办公室</p></td></tr><tr style=\"padding:40px;display:table-cell\"></tr></tbody></table></div><div><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td style=\"padding:20px 40px;font-size:12px;color:#999;line-height:20px;background:#f7f7f7\"><a href=\"${WebUrl}\" style=\"font-size:14px;color:#929292\" target=\"_blank\" rel=\"noopener\">返回"+WebUrl+"</a></td></tr></tbody></table></div></td></tr></tbody></table></div>");
+        helper.setText("<div style=\"background: #eee\"><table width=\"600\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\"><tbody><tr><td><div style=\"background:#fff\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><thead><tr><td valign=\"middle\" style=\"padding-left:30px;background-color:#415A94;color:#fff;padding:20px 40px;font-size: 21px;\">"+WebName+"</td></tr></thead><tbody><tr style=\"padding:40px 40px 0 40px;display:table-cell\"><td style=\"font-size:24px;line-height:1.5;color:#000;margin-top:40px; font-weight: 900;\">成绩公布</td></tr><tr><td style=\"font-size:14px;color:#333;padding:24px 40px 0 40px\"><p>尊敬的参赛选手，你好！</p><p>大赛成绩已公布，你的成绩是：<span style=\"font-size: 16px; font-weight: 800;\">"+score+"</span>，你的本次大赛排名是：<span style=\"font-size: 16px; font-weight: 800;\">"+rank+"</span></p><p>比赛成绩将于近期在学院钉钉群公布，奖品和证书的发放通知将于近期在学院钉钉群公布，请耐心等待！</p><p>如果你对比赛结果有任何疑问，请联系大赛组委会，地址：信息技术学院(鼎新楼)5楼510办公室</p></td></tr><tr style=\"padding:40px;display:table-cell\"></tr></tbody></table></div><div><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td style=\"padding:20px 40px;font-size:12px;color:#999;line-height:20px;background:#f7f7f7\"><a href=\"${WebUrl}\" style=\"font-size:14px;color:#929292\" target=\"_blank\" rel=\"noopener\">返回"+WebUrl+"</a></td></tr></tbody></table></div></td></tr></tbody></table></div>");
         javaMailSender.send(message);
+    }
+
+    public String getCurrentIP() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

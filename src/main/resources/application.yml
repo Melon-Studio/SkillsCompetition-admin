@@ -7,14 +7,17 @@ WebApplication:
   #站点名称
   name: SkillsCompetition
   #站点地址
-  url: http://localhost:5173/
+#  url: http://localhost:5173/
+  url: http://10.12.44.139
 
 #数据库配置
 spring:
   datasource:
-    username: SkillsCompetition
-    password: 123456
-    url: jdbc:mysql://localhost:25565/skillscompetition?useUnicode=true&characterEncoding=UTF-8
+    username: skills
+    password: cbMDA52ryaxPGc7r
+#    username: root
+#    password: 123456
+    url: jdbc:mysql://localhost:3306/skills?useUnicode=true&characterEncoding=UTF-8
   #Json解析器配置
   jackson:
     serialization:
@@ -55,7 +58,8 @@ logging:
 
 #异步跨域过滤
 cors:
-  filter: http://localhost:5173
+#  filter: http://localhost:5173
+  filter: http://10.12.44.139
 
 #MyBatis Plus 映射XML文件
 mybatis-plus:

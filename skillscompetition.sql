@@ -1,11 +1,18 @@
 /*
- Navicat Premium Data Transfer
+ This file is part of Skills Competition.
+ Copyright (C) 2023 Melon Studio All rights reserved.
+
+ Author:
+ AbuLan <xiaofan6@foxmail.com>
+
+ This software, including documentation, is protected by copyright controlled
+ by Melon Studio All rights are reserved.
 
  Source Server         : SkillsCompetition
  Source Server Type    : MySQL
  Source Server Version : 80012 (8.0.12)
  Source Host           : localhost:25565
- Source Schema         : skillscompetition
+ Source Schema         : skills Competition
 
  Target Server Type    : MySQL
  Target Server Version : 80012 (8.0.12)
@@ -27,7 +34,7 @@ CREATE TABLE `sc_rank`  (
   `score` double NOT NULL COMMENT '分数',
   `ranking` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '排名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sc_score
@@ -39,7 +46,7 @@ CREATE TABLE `sc_score`  (
   `work_id` int(11) NULL DEFAULT NULL COMMENT '作品ID',
   `score` double NULL DEFAULT NULL COMMENT '分数',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sc_system
@@ -53,6 +60,8 @@ CREATE TABLE `sc_system`  (
   `file_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件上传路径',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+INSERT INTO `sc_system` VALUES (1, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sc_user
@@ -72,8 +81,9 @@ CREATE TABLE `sc_user`  (
   `grade` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `usertype`(`usertype`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+INSERT INTO `sc_user` VALUES (1, '1000000000', 'admin', '4e07f64a17adf113e575e59ba7fa6b2e', 2, NULL, NULL, 1, NULL, NULL, NULL);
 -- ----------------------------
 -- Table structure for sc_usertype
 -- ----------------------------
@@ -97,5 +107,5 @@ CREATE TABLE `sc_work`  (
   `time` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '上传日期',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '作品名称',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

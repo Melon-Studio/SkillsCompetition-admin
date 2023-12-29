@@ -29,7 +29,7 @@ public interface WorkMapper extends BaseMapper<Work> {
 
     @Select("SELECT COUNT(*) AS total_reviewers " +
             "FROM sc_user " +
-            "WHERE usertype = 1;")
+            "WHERE usertype = 1 or usertype = 2;")
     Long getJudgesNum();
 
     @Select("select path from sc_work where sid = #{sid}")

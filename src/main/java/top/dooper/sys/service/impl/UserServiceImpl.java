@@ -235,7 +235,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             // 获取评分表数量
             Long scoreNum = scoreMapper.getScoreNum();
 
-            return workNum * judgesNum - scoreNum;
+            return workNum * judgesNum - scoreNum < 0 ? 0 : workNum * judgesNum - scoreNum;
         }
         return null;
     }
@@ -249,13 +249,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 return null;
             }
             // 获取作品数量
-            Long workNum = workMapper.getWorkNumber();
+            Long workNum = workMapper.getWorkNumber(); //1
             // 获取评分人员数量
-            Long judgesNum = workMapper.getJudgesNum();
+            Long judgesNum = workMapper.getJudgesNum(); //1
             // 获取评分表数量
-            Long scoreNum = scoreMapper.getScoreNum();
+            Long scoreNum = scoreMapper.getScoreNum(); //0
+            System.out.println(workNum+"\n"+judgesNum+"\n"+scoreNum);
             DecimalFormat decimalFormat = new DecimalFormat("0.00");
             double data = (double) scoreNum / (workNum * judgesNum) * 100;
+            System.out.println(data);
+            if (Double.isNaN(data)) {
+                return "暂无数据";
+            }
+            if (data == 0) {
+                return 0+"%";
+            }
             return decimalFormat.format(data) + "%";
         }
         return null;

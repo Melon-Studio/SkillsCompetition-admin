@@ -133,6 +133,7 @@ public class RankServiceImpl extends ServiceImpl<RankMapper, Rank> implements IR
                 return null;
             }
             this.baseMapper.clearData();
+            this.baseMapper.clearScoreData();
             Map<String, Boolean> dataMap = new HashMap<>();
             dataMap.put("clearData", true);
             return dataMap;

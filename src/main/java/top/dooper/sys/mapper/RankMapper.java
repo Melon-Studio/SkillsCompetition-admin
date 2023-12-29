@@ -30,5 +30,8 @@ public interface RankMapper extends BaseMapper<Rank> {
     @Select("truncate table sc_rank")
     void clearData();
 
+    @Select("truncate table sc_score")
+    void clearScoreData();
+
     List<PublishScoreVo> getEmail();
 }
